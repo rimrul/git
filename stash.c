@@ -3,9 +3,9 @@
 
 static int prepare_update_index_argv(struct argv_array *args, struct strbuf *buf)
 {
-	struct strbuf **bufs,**b;
-	bufs=strbuf_split(buf,'\0');
-	for(b=bufs;*b;b++)
+	struct strbuf **bufs, **b;
+	bufs = strbuf_split(buf, '\0');
+	for (b = bufs; *b; b++)
 		argv_array_pushf(args, "%s", (*b)->buf);
 	argv_array_push(args, "--");
 	strbuf_list_free(bufs);
@@ -50,8 +50,8 @@ int stash_non_patch(const char* tmp_indexfile, const char* i_tree,
 		write_tree.git_cmd = 1;
 
 	result = run_command(&read_tree) ||
-		setenv("GIT_INDEX_FILE",tmp_indexfile,1) ||
-		capture_command(&diff,&buf,0) ||
+		setenv("GIT_INDEX_FILE", tmp_indexfile, 1) ||
+		capture_command(&diff, &buf, 0) ||
 		prepare_update_index_argv(&update_index.args, &buf) ||
 		run_command(&update_index) ||
 		run_command(&write_tree) ||
