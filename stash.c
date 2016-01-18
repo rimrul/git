@@ -15,8 +15,8 @@ static int prepare_update_index_argv(struct argv_array *args,
 	return 0;
 }
 
-int stash_non_patch(const char* tmp_indexfile, const char* i_tree,
-	const char* prefix)
+int stash_non_patch(const char *tmp_indexfile, const char *i_tree,
+	const char *prefix)
 {
 	int result;
 	struct child_process read_tree = CHILD_PROCESS_INIT;
