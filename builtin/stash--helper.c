@@ -9,6 +9,5 @@ int cmd_stash__helper(int argc, const char **argv, const char *prefix)
 {
 	if (argc == 4 && !strcmp("--non-patch", argv[1]))
 		return stash_non_patch(argv[2], argv[3], prefix);
-	else
-		usage(builtin_stash__helper_usage);
+	usage(builtin_stash__helper_usage);
 }
