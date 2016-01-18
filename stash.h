@@ -5,6 +5,7 @@
 #include "gettext.h"
 #include "run-command.h"
 
-extern int stash_non_patch(const char*, const char*, const char*);
+extern int stash_non_patch(const char *tmp_indexfile, const char *i_tree,
+	const char *prefix)
 
 #endif // STASH_H
