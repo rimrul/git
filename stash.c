@@ -23,7 +23,7 @@ int stash_non_patch(const char *tmp_indexfile, const char *i_tree,
 	struct child_process diff = CHILD_PROCESS_INIT;
 	struct child_process update_index = CHILD_PROCESS_INIT;
 	struct child_process write_tree = CHILD_PROCESS_INIT;
-	struct strbuf buf = STRBUF_INIT; 
+	struct strbuf buf = STRBUF_INIT;
 
 	argv_array_push(&read_tree.args, "read-tree");
 	argv_array_pushf(&read_tree.args, "--index-output=%s", tmp_indexfile);
