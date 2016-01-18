@@ -1,7 +1,8 @@
 #include "stash.h"
 #include "strbuf.h"
 
-static int prepare_update_index_argv(struct argv_array *args, struct strbuf *buf)
+static int prepare_update_index_argv(struct argv_array *args,
+	struct strbuf *buf)
 {
 	struct strbuf **bufs, **b;
 	bufs = strbuf_split(buf, '\0');
@@ -29,8 +30,8 @@ int stash_non_patch(const char* tmp_indexfile, const char* i_tree,
 	argv_array_pushl(&diff.args, "diff", "--name-only", "-z", "HEAD", "--",
 		NULL);
 
-	argv_array_pushl(&update_index.args, "update-index", "--add", "--remove",
-		NULL);
+	argv_array_pushl(&update_index.args, "update-index", "--add",
+		"--remove", NULL);
 
 	argv_array_push(&write_tree.args, "write-tree");
 
