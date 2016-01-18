@@ -8,4 +8,4 @@
 extern int stash_non_patch(const char *tmp_indexfile, const char *i_tree,
 	const char *prefix)
 
-#endif // STASH_H
+#endif /* STASH_H */
