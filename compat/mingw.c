@@ -3652,6 +3652,14 @@ static size_t append_system_bin_dirs(char *path, size_t size)
 	    strip_suffix_mem(prefix, &len, "\\clangarm64\\bin"))
 		off += xsnprintf(path + off, size - off,
 				 "%.*s\\clangarm64\\bin;", (int)len, prefix);
+	else if (strip_suffix_mem(prefix, &len, "\\clang64\\libexec\\git-core") ||
+	    strip_suffix_mem(prefix, &len, "\\clang64\\bin"))
+		off += xsnprintf(path + off, size - off,
+				 "%.*s\\clang64\\bin;", (int)len, prefix);
+	else if (strip_suffix_mem(prefix, &len, "\\ucrt64\\libexec\\git-core") ||
+	    strip_suffix_mem(prefix, &len, "\\ucrt64\\bin"))
+		off += xsnprintf(path + off, size - off,
+				 "%.*s\\ucrt64\\bin;", (int)len, prefix);
 	else if (strip_suffix_mem(prefix, &len, "\\mingw32\\libexec\\git-core") ||
 		 strip_suffix_mem(prefix, &len, "\\mingw32\\bin"))
 		off += xsnprintf(path + off, size - off,
@@ -3659,13 +3667,21 @@ static size_t append_system_bin_dirs(char *path, size_t size)
 	else if (strip_suffix_mem(prefix, &len, "\\cmd") ||
 		 strip_suffix_mem(prefix, &len, "\\bin") ||
 		 strip_suffix_mem(prefix, &len, "\\libexec\\git-core"))
-#if defined(__clang__) && defined(__aarch64__)
+#if defined(__aarch64__) || defined(_M_ARM64) || defined(_M_ARM64EC)
 		off += xsnprintf(path + off, size - off,
 				 "%.*s\\clangarm64\\bin;", (int)len, prefix);
+#elif defined(__clang__)
+		off += xsnprintf(path + off, size - off,
+				 "%.*s\\clang64\\bin;", (int)len, prefix);
+#else
+#if defined(_UCRT)
+		off += xsnprintf(path + off, size - off,
+				 "%.*s\\ucrt64\\bin;", (int)len, prefix);
 #else
 		off += xsnprintf(path + off, size - off,
 				 "%.*s\\mingw%d\\bin;", (int)len, prefix,
 				 (int)(sizeof(void *) * 8));
+#endif
 #endif
 	else
 		return 0;
@@ -3765,7 +3781,13 @@ static void setup_windows_environment(void)
 #if defined(__aarch64__) || defined(_M_ARM64) || defined(_M_ARM64EC)
 		setenv("MSYSTEM", "CLANGARM64", 1);
 #elif defined(__MINGW64__) || defined(_M_AMD64)
+#if defined(_UCRT)
+		setenv("MSYSTEM", "UCRT64", 1);
+#elif defined(__clang__) 
+		setenv("MSYSTEM", "CLANG64", 1);
+#else
 		setenv("MSYSTEM", "MINGW64", 1);
+#endif
 #else
 		setenv("MSYSTEM", "MINGW32", 1);
 #endif
