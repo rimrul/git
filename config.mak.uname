@@ -753,20 +753,24 @@ ifeq ($(uname_S),MINGW)
 		HOST_CPU = i686
 		COMPAT_CFLAGS += -D_USE_32BIT_TIME_T
 		BASIC_LDFLAGS += -Wl,--large-address-aware
+		CC = gcc
         else ifeq (MINGW64,$(MSYSTEM))
 		prefix = /mingw64
 		HOST_CPU = x86_64
+		CC = gcc
         else ifeq (UCRT64,$(MSYSTEM))
 		prefix = /ucrt64
 		HOST_CPU = x86_64
+		CC = gcc
         else ifeq (CLANG64,$(MSYSTEM))
 		prefix = /clang64
 		HOST_CPU = x86_64
+		CC = clang
 		else ifeq (CLANGARM64,$(MSYSTEM))
 		prefix = /clangarm64
 		HOST_CPU = aarch64
+		CC = clang
         endif
-	CC = gcc
 	COMPAT_CFLAGS += -D__USE_MINGW_ANSI_STDIO=0 -DDETECT_MSYS_TTY \
 		-DENSURE_MSYSTEM_IS_SET -fstack-protector-strong
 	EXTLIBS += -lntdll
