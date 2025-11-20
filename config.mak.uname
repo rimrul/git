@@ -756,6 +756,12 @@ ifeq ($(uname_S),MINGW)
         else ifeq (MINGW64,$(MSYSTEM))
 		prefix = /mingw64
 		HOST_CPU = x86_64
+        else ifeq (UCRT64,$(MSYSTEM))
+		prefix = /ucrt64
+		HOST_CPU = x86_64
+        else ifeq (CLANG64,$(MSYSTEM))
+		prefix = /clang64
+		HOST_CPU = x86_64
 		else ifeq (CLANGARM64,$(MSYSTEM))
 		prefix = /clangarm64
 		HOST_CPU = aarch64
@@ -772,7 +778,7 @@ ifeq ($(uname_S),MINGW)
 	USE_LIBPCRE = YesPlease
 	USE_MIMALLOC = YesPlease
 	NO_PYTHON =
-        ifeq (/mingw64,$(subst 32,64,$(subst clangarm,mingw,$(prefix))))
+        ifeq (/mingw64,$(subst 32,64,$(subst arm64,64,$(subst ucrt,mingw,$(subst clang,mingw,$(prefix))))))
 		# Move system config into top-level /etc/
 		ETC_GITCONFIG = ../etc/gitconfig
 		ETC_GITATTRIBUTES = ../etc/gitattributes
