@@ -3659,9 +3659,14 @@ static size_t append_system_bin_dirs(char *path, size_t size)
 	else if (strip_suffix_mem(prefix, &len, "\\cmd") ||
 		 strip_suffix_mem(prefix, &len, "\\bin") ||
 		 strip_suffix_mem(prefix, &len, "\\libexec\\git-core"))
+#if defined(__clang__) && defined(__aarch64__)
+		off += xsnprintf(path + off, size - off,
+				 "%.*s\\clangarm64\\bin;", (int)len, prefix);
+#else
 		off += xsnprintf(path + off, size - off,
 				 "%.*s\\mingw%d\\bin;", (int)len, prefix,
 				 (int)(sizeof(void *) * 8));
+#endif
 	else
 		return 0;
 
